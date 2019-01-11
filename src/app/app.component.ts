@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'template';
+  static API_URL = 'http://localhost:8081';
+  title = 'ConTask';
 }
