@@ -1,7 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Connected} from '../../model/connected.model';
-import {Router} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
+
 import {AuthService} from '../../service/auth/auth.service';
 
 @Component({
@@ -17,18 +16,5 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isLoggedIn;
-  }
-
-  onLogout() {
-    this.authService.logout();
-  }
-
-  toggleNavigation(body): void {
-    body.toggleClass('mini-navbar');
-    // smoothlyMenu();
-  }
-  logout() {
-    localStorage.clear();
-    // location.href='http://to_login_page';
   }
 }
