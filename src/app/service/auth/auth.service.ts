@@ -13,6 +13,9 @@ export class AuthService {
     constructor(private http: HttpClient) { }
 
     get isLoggedIn() {
+      if (localStorage.getItem('currentUser')) {
+        this.loggedIn.next(true);
+      }
       return this.loggedIn.asObservable();
     }
 
