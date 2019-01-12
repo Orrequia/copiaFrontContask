@@ -1,0 +1,13 @@
+.list{
+  float:left;
+  /*width:15%;*/
+  background:#eaf4ff;
+  height: calc(100vh - 70px);
+}
+
+.detail {
+  float:left;
+  padding:15px;
+  /*border-left:1px solid #ccc;*/
+  height: calc(100vh - 70px);
+}
