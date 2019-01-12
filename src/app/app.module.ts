@@ -11,13 +11,20 @@ import {LoginComponent} from './component/login/login.component';
 import {routing} from './app.routing';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import { NavbarCompanyComponent } from './component/company/navbar-company/navbar-company.component';
+import { ListCompanyComponent } from './component/company/list-company/list-company.component';
+import { DetailCompanyComponent } from './component/company/detail-company/detail-company.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
     CompanyComponent,
-    LoginComponent
+    NavbarCompanyComponent,
+    LoginComponent,
+    NavbarCompanyComponent,
+    ListCompanyComponent,
+    DetailCompanyComponent
   ],
   imports: [
     BrowserModule,
