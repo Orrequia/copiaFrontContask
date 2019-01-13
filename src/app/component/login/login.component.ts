@@ -29,9 +29,12 @@ export class LoginComponent implements OnInit {
           password: ['', Validators.required]
       });
 
-      this.authService.logout();
-
       this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/company';
+
+      // this.authService.logout();
+      if (this.authService.isLoggedIn) {
+        this.router.navigate([this.returnUrl]);
+      }
   }
 
   get f() { return this.loginForm.controls; }
