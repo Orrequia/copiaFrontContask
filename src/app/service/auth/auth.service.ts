@@ -4,13 +4,14 @@ import { AppComponent } from '../../app.component';
 import { Connected } from '../../model/connected.model';
 import { map } from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class AuthService {
 
     private loggedIn = new BehaviorSubject<boolean>(false);
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private router: Router) { }
 
     get isLoggedIn() {
       if (localStorage.getItem('currentUser')) {
@@ -44,12 +45,8 @@ export class AuthService {
     }
 
     public logout() {
-        return this.http.post(AppComponent.API_URL + '/logout', {})
-            .pipe(
-                map((response: Response) => {
-                  localStorage.removeItem('currentUser');
-                  this.loggedIn.next(false);
-                })
-            );
+      localStorage.removeItem('currentUser');
+      this.loggedIn.next(false);
+      this.router.navigate(['/login']);
     }
 }
