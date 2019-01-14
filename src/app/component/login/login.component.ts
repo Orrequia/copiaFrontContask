@@ -32,9 +32,11 @@ export class LoginComponent implements OnInit {
       this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/company';
 
       // this.authService.logout();
-      if (this.authService.isLoggedIn) {
-        this.router.navigate([this.returnUrl]);
-      }
+      this.authService.isLoggedIn.subscribe(value => {
+        if (value) {
+          this.router.navigate([this.returnUrl]);
+        }
+      });
   }
 
   get f() { return this.loginForm.controls; }

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {AuthService} from '../../../service/auth/auth.service';
+import {Company} from '../../../model/company.model';
 
 @Component({
   selector: 'app-navbar-company',
@@ -8,6 +9,8 @@ import {AuthService} from '../../../service/auth/auth.service';
   providers: []
 })
 export class NavbarCompanyComponent implements OnInit {
+
+  @Input() company: Company;
 
   constructor(private authService: AuthService) { }
 

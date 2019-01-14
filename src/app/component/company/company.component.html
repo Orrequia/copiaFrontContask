@@ -1,9 +1,9 @@
-<app-navbar-company></app-navbar-company>
+<app-navbar-company [company]="companySelected"></app-navbar-company>
 <div class="row">
   <div class="list col-2">
     <app-list-company (sendCompany)="receiveCompany($event)"></app-list-company>
   </div>
-  <div class="detail col-10">
+  <div class="detail col-10" *ngIf="companySelected">
     <app-detail-company [company]="companySelected"></app-detail-company>
   </div>
 </div>

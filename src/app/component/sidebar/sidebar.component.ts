@@ -10,7 +10,7 @@ import {AuthService} from '../../service/auth/auth.service';
 })
 export class SidebarComponent implements OnInit {
 
-  isLoggedIn$: Observable<boolean>;
+  isLoggedIn$: Observable<Boolean>;
 
   constructor(private authService: AuthService) { }
 
