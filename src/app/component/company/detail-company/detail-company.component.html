@@ -49,8 +49,8 @@
         <div class="card">
           <div class="card-header">
             <ul class="nav nav-tabs">
-              <li *ngFor="let store of stores">
-                <a class="nav-link" data-toggle="tab" (click)="selectStore(store)">{{store.name}}</a>
+              <li *ngFor="let store of stores; index as i">
+                <a class="nav-link {{i === 0? 'active' : ''}}" data-toggle="tab" (click)="selectStore(store)">{{store.name}}</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">+</a>
@@ -69,9 +69,9 @@
             <h5>Propietario</h5>
           </div>
           <div class="card-body">
-            <p class="card-text">Nombre: {{owner.name}}</p>
-            <p class="card-text">Correo electrónico: {{owner.email ? owner.email : nulo}} </p>
-            <p class="card-text">Teléfono: {{owner.phone ? owner.phone : nulo}}</p>
+            <p class="card-text"><i class="fab fa-odnoklassniki fa-2x"></i> {{owner.name}}</p>
+            <p class="card-text"><i class="fas fa-at fa-2x"></i> {{owner.email ? owner.email : nulo}} </p>
+            <p class="card-text"><i class="fas fa-phone fa-2x"></i> {{owner.phone ? owner.phone : nulo}}</p>
             <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
           </div>
         </div>

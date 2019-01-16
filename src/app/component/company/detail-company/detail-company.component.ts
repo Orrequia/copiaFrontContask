@@ -44,7 +44,7 @@ export class DetailCompanyComponent implements OnInit, OnChanges {
     });
     this.storeService.get(undefined, [this.company.idCompany]).subscribe( stores => {
       this.stores = stores as unknown as Array<Store>;
-      console.log(stores);
+      this.storeSelected = stores[0];
     });
     this.storeSelected = new Store();
   }
