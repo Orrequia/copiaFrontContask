@@ -14,6 +14,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { NavbarCompanyComponent } from './component/company/navbar-company/navbar-company.component';
 import { ListCompanyComponent } from './component/company/list-company/list-company.component';
 import { DetailCompanyComponent } from './component/company/detail-company/detail-company.component';
+import { DetailStoreComponent } from './component/store/detail-store/detail-store.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { DetailCompanyComponent } from './component/company/detail-company/detai
     LoginComponent,
     NavbarCompanyComponent,
     ListCompanyComponent,
-    DetailCompanyComponent
+    DetailCompanyComponent,
+    DetailStoreComponent
   ],
   imports: [
     BrowserModule,
