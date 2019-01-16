@@ -4,6 +4,8 @@ import {CompanyTypeService} from '../../../service/company-type/company-type.ser
 import {CompanyType} from '../../../model/company-type.model';
 import {EmployeeService} from '../../../service/employee/employee.service';
 import {Employee} from '../../../model/employee.model';
+import {StoreService} from '../../../service/store/store.service';
+import {Store} from '../../../model/store.model';
 
 @Component({
   selector: 'app-detail-company',
@@ -12,14 +14,22 @@ import {Employee} from '../../../model/employee.model';
 })
 export class DetailCompanyComponent implements OnInit, OnChanges {
 
-  @Input() company: Company;
-  companyType: CompanyType;
-  owner: Employee;
+  @Input()
+  private company: Company;
+
+  private companyType: CompanyType;
+  private owner: Employee;
+  private stores: Array<Store>;
+  private storeSelected: Store;
+
+  private nulo = '--';
 
   constructor(private companyTypeService: CompanyTypeService,
-              private employeeService: EmployeeService) {
+              private employeeService: EmployeeService,
+              private storeService: StoreService) {
     this.companyType = new CompanyType();
     this.owner = new Employee();
+    this.stores = new Array<Store>();
   }
 
   ngOnInit() {
@@ -32,7 +42,15 @@ export class DetailCompanyComponent implements OnInit, OnChanges {
     this.employeeService.get(this.company.idOwner).subscribe(employee => {
       this.owner = employee as unknown as Employee;
     });
+    this.storeService.get(undefined, [this.company.idCompany]).subscribe( stores => {
+      this.stores = stores as unknown as Array<Store>;
+      console.log(stores);
+    });
+    this.storeSelected = new Store();
   }
 
+  selectStore(store: Store) {
+    this.storeSelected = store;
+  }
 
 }
