@@ -18,11 +18,11 @@ export abstract class GenericService {
                           withCredentials: true};
     }
 
-    protected abstract getResourceUrl();
+    protected abstract getResourceUrl(ids?: Array<number>);
 
-    private buildResourceUrl(id?: number) {
+    private buildResourceUrl(id?: number, ids?: Array<number>) {
 
-        let url = AppComponent.API_URL + this.getResourceUrl();
+        let url = AppComponent.API_URL + this.getResourceUrl(ids);
 
         if (id) {
             url += '/' + id;
@@ -31,11 +31,11 @@ export abstract class GenericService {
         return url;
     }
 
-    public post = (body: string) => this.http.post(this.buildResourceUrl(undefined), body, this.options);
+    public post = (body: string, ids?: Array<number>) => this.http.post(this.buildResourceUrl(undefined, ids), body, this.options);
 
-    public put = (id: number, body: string) => this.http.put(this.buildResourceUrl(id), body, this.options);
+    public put = (id: number, body: string, ids?: Array<number>) => this.http.put(this.buildResourceUrl(id, ids), body, this.options);
 
-    public delete = (id: number) => this.http.delete(this.buildResourceUrl(id), this.options);
+    public delete = (id: number, ids?: Array<number>) => this.http.delete(this.buildResourceUrl(id, ids), this.options);
 
-    public get = (id?: number) => this.http.get(this.buildResourceUrl(id), this.options);
+    public get = (id?: number, ids?: Array<number>) => this.http.get(this.buildResourceUrl(id, ids), this.options);
 }
