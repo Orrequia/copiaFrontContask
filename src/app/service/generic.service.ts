@@ -20,7 +20,7 @@ export abstract class GenericService {
 
     protected abstract getResourceUrl(ids?: Array<number>);
 
-    private buildResourceUrl(id?: number, ids?: Array<number>) {
+    private buildResourceUrl(id?: number, ids?: Array<number>, params?: {}) {
 
         let url = AppComponent.API_URL + this.getResourceUrl(ids);
 
@@ -28,6 +28,17 @@ export abstract class GenericService {
             url += '/' + id;
         }
 
+        if (params) {
+          url += '?';
+          for (const clave of Object.keys(params)) {
+            console.log(clave);
+            console.log(params[clave]);
+            url += clave + '=' + params[clave] + '&';
+          }
+          url = url.substring(0, url.length - 1);
+        }
+
+        console.log(url);
         return url;
     }
 
@@ -37,5 +48,5 @@ export abstract class GenericService {
 
     public delete = (id: number, ids?: Array<number>) => this.http.delete(this.buildResourceUrl(id, ids), this.options);
 
-    public get = (id?: number, ids?: Array<number>) => this.http.get(this.buildResourceUrl(id, ids), this.options);
+    public get = (id?: number, ids?: Array<number>, params?: {}) => this.http.get(this.buildResourceUrl(id, ids, params), this.options);
 }

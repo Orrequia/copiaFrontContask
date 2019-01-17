@@ -4,13 +4,23 @@
   padding:0;
   position:relative;
 }
-.nav-tabs--vertical li a{
+.nav-tabs--vertical li a {
   float:left;
   width: 100%;
   padding: 15px;
   border-bottom:1px solid #adcff7;
   color:#1276F0;
 }
+.search-li{
+  border-bottom:1px solid #adcff7;
+  color:#1276F0;
+
+}.search-input{
+  margin-bottom: 10px;
+  margin-top: 10px;
+
+}
+
 .nav-tabs--vertical li a.active::after {
   content: "";
   border-color: #1276F0;
