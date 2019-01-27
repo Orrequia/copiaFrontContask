@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {AuthService} from '../../../core/auth/service/auth.service';
+import {AuthService} from '../../../auth/service/auth.service';
 import {Company} from '../../model/company.model';
 
 @Component({

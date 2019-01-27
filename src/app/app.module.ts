@@ -7,11 +7,14 @@ import {HttpClientModule} from '@angular/common/http';
 import {AppComponent} from './app.component';
 import {CoreModule} from './core/core.module';
 import {CompanyModule} from './company/company.module';
-import {ContractService} from './service/contract/contract.service';;
+import {ContractService} from './service/contract/contract.service';
+import {AuthModule} from './auth/auth.module';
+import {SidebarComponent} from './sidebar/component/sidebar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
@@ -19,8 +22,9 @@ import {ContractService} from './service/contract/contract.service';;
     ReactiveFormsModule,
     HttpClientModule,
     routing,
+    AuthModule,
     CoreModule,
-    CompanyModule
+    CompanyModule,
   ],
   providers: [
     ContractService
