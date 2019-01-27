@@ -1,0 +1,19 @@
+.social-part .fa{
+  padding-right:20px;
+}
+ul li a{
+  margin-right: 20px;
+}
+
+.navbar {
+  height: 70px;
+  z-index: 100;
+}
+.line-separator {
+  border-right: 1px solid grey;
+  margin-right: 10px;
+}
+.background-withColor {
+  background-color: #f8f9fa;
+  float: right;
+}

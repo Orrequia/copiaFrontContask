@@ -1,0 +1,69 @@
+<div class="right_bar">
+  <div class="tab-content" *ngIf="company">
+    <div class="row">
+      <!-- Descripción empresa -->
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">
+              <ng-container *ngIf="companyType.name != 'Autonomo'; then autonomousIcon; else companyIcon"></ng-container>
+              <ng-template #autonomousIcon><i class="fas fa-building"></i></ng-template>
+              <ng-template #companyIcon><i class="fas fa-user-tie"></i></ng-template>
+              {{company.name}}
+            </h5>
+            <div class="card-text">
+              {{company.nif}}
+              <div class="icons">
+                <i class="fas fa-folder fa-2x icon-folder"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <!-- Propietario -->
+        <div class="card">
+          <div class="card-header">
+            <h6>Propietario</h6>
+          </div>
+          <div class="card-body">
+            <p class="card-text owner-text">
+              <i class="fas fa-user-circle icon-tam"></i>{{owner.name}} <br/>
+              <i class="fas fa-at icon-tam"></i>{{owner.email ? owner.email : nulo}} <br/>
+              <i class="fas fa-phone icon-tam"></i>{{owner.phone ? owner.phone : nulo}}</p>
+          </div>
+        </div>
+        <br/>
+        <!-- Notas -->
+        <div class="card">
+          <div class="card-header">
+            <h6>Notas</h6>
+          </div>
+          <div class="card-body">
+            <p class="card-text">{{company.note ? company.note : 'No tiene notas'}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="d-block d-md-none">&nbsp;</div>
+      <!-- Tiendas -->
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header tags-store">
+            <ul class="nav nav-tabs">
+              <li *ngFor="let store of stores; index as i">
+                <a class="nav-link {{i === 0? 'active' : ''}}" data-toggle="tab" (click)="selectStore(store)">{{store.name}}</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">+</a>
+              </li>
+            </ul>
+          </div>
+          <div class="card-body">
+            <app-detail-store [company]="company" [store]="storeSelected"></app-detail-store>
+          </div>
+        </div>
+        <br/>
+      </div>
+
+    </div>
+  </div>
+</div>
