@@ -1,11 +1,18 @@
-import {NgModule} from '@angular/core';;
-import {BrowserModule} from '@angular/platform-browser';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
-import {LoginComponent} from '../auth/component/login.component';
-import {SidebarComponent} from '../sidebar/component/sidebar.component';
-import {AuthGuard} from '../auth/guard/auth.guard';
-import {AuthService} from '../auth/service/auth.service';
+import {NgModule} from '@angular/core';
+import {StoreModule} from '@ngrx/store';
+import {reducers, metaReducers} from './reducer/core.reducer';
+import {StoreRouterConnectingModule} from '@ngrx/router-store';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {EffectsModule} from '@ngrx/effects';
 
-@NgModule({})
+@NgModule({
+  imports: [
+    StoreModule.forRoot(reducers, {metaReducers}),
+    // StoreRouterConnectingModule.forRoot(),
+    StoreDevtoolsModule.instrument({
+      name: 'Esto es una prueba',
+    }),
+    EffectsModule.forRoot([])
+  ]
+})
 export class CoreModule { }

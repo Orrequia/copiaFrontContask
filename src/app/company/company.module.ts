@@ -13,6 +13,11 @@ import {SearchCompanyService} from './service/company/search-company.service';
 import {CompanyTypeService} from './service/companytype/company-type.service';
 import {StoreService} from './service/store/store.service';
 import {EmployeeService} from './service/employee/employee.service';
+import {StoreModule} from '@ngrx/store';
+// import {reducers} from './reducer';
+import {EffectsModule} from '@ngrx/effects';
+import {CompanyEffect} from './effect/company.effect';
+import {companyReducer} from './reducer/company.reducer';
 
 @NgModule({
   declarations: [
@@ -36,6 +41,8 @@ import {EmployeeService} from './service/employee/employee.service';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    StoreModule.forFeature('companies', companyReducer),
+    EffectsModule.forFeature([CompanyEffect])
   ],
   providers: [
     CompanyService,
