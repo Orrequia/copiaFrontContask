@@ -1,11 +1,16 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {Company} from '../../model/company.model';
 import {CompanyType} from '../../model/company-type.model';
 import {Employee} from '../../model/employee.model';
-import {Store} from '../../model/store.model';
+import {select, Store} from '@ngrx/store';
+import * as StoreModel from '../../model/store.model';
 import {CompanyTypeService} from '../../service/companytype/company-type.service';
 import {EmployeeService} from '../../service/employee/employee.service';
-import {StoreService} from '../../service/store/store.service';
+import {LoadStores} from '../../action/store.action';
+import {Observable, of} from 'rxjs';
+import {selectStoresByIds, selectStoreState} from '../../selector/store.selector';
+import {catchError} from 'rxjs/operators';
+import {AppState} from '../../../core/reducer/core.reducer';
 
 @Component({
   selector: 'app-detail-company',
@@ -17,39 +22,77 @@ export class DetailCompanyComponent implements OnInit, OnChanges {
   @Input()
   private company: Company;
 
+  private dispatched = false;
   private companyType: CompanyType;
   private owner: Employee;
-  private stores: Array<Store>;
-  private storeSelected: Store;
+  private stores$: Observable<Array<StoreModel.Store>>;
+  private storeSelected: StoreModel.Store;
 
   private nulo = '--';
 
-  constructor(private companyTypeService: CompanyTypeService,
-              private employeeService: EmployeeService,
-              private storeService: StoreService) {
+  constructor(private store$: Store<AppState>,
+              private companyTypeService: CompanyTypeService,
+              private employeeService: EmployeeService) {
     this.companyType = new CompanyType();
     this.owner = new Employee();
-    this.stores = new Array<Store>();
   }
 
   ngOnInit() {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges() {
+
+    this.dispatched = false;
+    this.getStores();
+
     this.companyTypeService.get(this.company.idCompanyType).subscribe(companyType => {
       this.companyType = companyType as unknown as CompanyType;
     });
     this.employeeService.get(this.company.idOwner).subscribe(employee => {
       this.owner = employee as unknown as Employee;
     });
-    this.storeService.get(undefined, [this.company.idCompany]).subscribe( stores => {
-      this.stores = stores as unknown as Array<Store>;
-      this.storeSelected = stores[0];
-    });
-    this.storeSelected = new Store();
   }
 
-  selectStore(store: Store) {
+  private getStores() {
+    this.store$.pipe(select(selectStoreState)).subscribe(stores => {
+      if (!this.dispatched) {
+        if (!stores.ids[0]) {
+          this.dispatched = true;
+          this.store$.dispatch(new LoadStores(this.company.idCompany));
+        } else {
+          this.stores$ = this.getAllStoresWithDispatch();
+        }
+      } else {
+        this.stores$ = this.getAllStores();
+      }
+      this.setStoreByDefaultSelected();
+    });
+  }
+
+  private setStoreByDefaultSelected() {
+    this.stores$.subscribe(storesGot => {
+      this.storeSelected = storesGot[0];
+    });
+  }
+
+  private getAllStores(): Observable<Array<StoreModel.Store>> {
+    return this.store$.pipe(
+      select(selectStoresByIds(this.company.stores)),
+      catchError(() => of([new StoreModel.Store()])));
+  }
+
+  private getAllStoresWithDispatch(): Observable<Array<StoreModel.Store>> {
+    return this.store$.pipe(
+      select(selectStoresByIds(this.company.stores)),
+      catchError(() => {
+        this.dispatched = true;
+        this.store$.dispatch(new LoadStores(this.company.idCompany));
+        return of([new StoreModel.Store()]);
+      })
+    );
+  }
+
+  public selectStore(store: StoreModel.Store) {
     this.storeSelected = store;
   }
 

@@ -5,6 +5,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {AuthGuard} from './guard/auth.guard';
 import {AuthService} from './service/auth.service';
+import {StoreModule} from '@ngrx/store';
+import {authReducer} from './reducer/auth.reducer';
+import {EffectsModule} from '@ngrx/effects';
+import {AuthEffect} from './effect/auth.effect';
 
 @NgModule({
   declarations: [
@@ -18,6 +22,8 @@ import {AuthService} from './service/auth.service';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    StoreModule.forFeature('auth', authReducer),
+    EffectsModule.forFeature([AuthEffect])
   ],
   providers: [
     AuthGuard,

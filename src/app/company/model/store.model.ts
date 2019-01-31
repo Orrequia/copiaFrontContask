@@ -2,7 +2,7 @@ import {Employee} from './employee.model';
 import {Population} from '../../model/population.model';
 
 export class Store {
-  idStore: Number;
+  idStore: number;
   name: string;
   address: string;
   email: string;

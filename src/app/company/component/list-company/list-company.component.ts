@@ -8,7 +8,8 @@ import {select, Store} from '@ngrx/store';
 import * as fromCompanySelector from '../../selector/company.selector';
 import * as fromCompanyState from '../../state/company.state';
 import {LoadCompanies} from '../../action/company.action';
-import {selectAllCompanyItems} from '../../selector/company.selector';
+import {selectAllCompanies, selectCompanyState} from '../../selector/company.selector';
+import {AppState} from '../../../core/reducer/core.reducer';
 
 @Component({
   selector: 'app-list-company',
@@ -22,25 +23,33 @@ export class ListCompanyComponent implements OnInit {
   searchCompany = new EventEmitter<Company>();
   private textSearch$ = new Subject<string>();
 
+  private dispatched = false;
   private companies: Array<Company>;
   private companies$: Observable<Array<Company>>;
 
   constructor(private companyService: CompanyService,
               private searchCompanySercice: SearchCompanyService,
-              private store$: Store<fromCompanyState.State>) {
+              private store$: Store<AppState>) {
     // this.searchCompanySercice.search(this.textSearch$).subscribe(results => {
     //   this.companies = results;
     // });
 
     // this.companies$ = store$.pipe(select(fromCompanySelector.selectAllCompanyItems));
-    this.companies$ = store$.pipe(select(selectAllCompanyItems));
+    this.companies$ = store$.pipe(select(selectAllCompanies));
   }
 
   ngOnInit() {
     // this.companyService.get().subscribe(companies => {
     //   this.companies = companies as unknown as Array<Company>;
     // });
-    this.store$.dispatch(new LoadCompanies());
+
+    this.store$.select(selectCompanyState).subscribe(companies => {
+      if (!companies.ids[0] && !this.dispatched) {
+        this.dispatched = true;
+        this.store$.dispatch(new LoadCompanies());
+      }
+    });
+
   }
 
   senderCompany(company: Company) {

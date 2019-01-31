@@ -17,10 +17,10 @@ export class LoadCompaniesSuccess implements Action {
   constructor(public payload: Array<Company>) {}
 }
 
-export class LoadCompanyFail implements Action {
+export class LoadCompaniesFail implements Action {
   readonly type = CompanyActionTypes.LOAD_COMPANIES_FAIL;
 
   constructor(public payload: Error) {}
 }
 
-export type CompanyActionsUnion = LoadCompanies | LoadCompaniesSuccess | LoadCompanyFail;
+export type CompanyActionsUnion = LoadCompanies | LoadCompaniesSuccess | LoadCompaniesFail;

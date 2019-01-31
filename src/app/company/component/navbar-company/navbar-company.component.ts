@@ -1,6 +1,9 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {AuthService} from '../../../auth/service/auth.service';
 import {Company} from '../../model/company.model';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../../core/reducer/core.reducer';
+import {LogoutAuth} from '../../../auth/action/auth.action';
 
 @Component({
   selector: 'app-navbar-company',
@@ -14,7 +17,7 @@ export class NavbarCompanyComponent implements OnInit, OnChanges {
 
   private initSummaryContract: Boolean;
 
-  constructor(private authService: AuthService) { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
     this.initSummaryContract = false;
@@ -25,7 +28,7 @@ export class NavbarCompanyComponent implements OnInit, OnChanges {
   }
 
   logout() {
-    this.authService.logout();
+    this.store.dispatch(new LogoutAuth());
   }
 
   activeSummaryContract() {

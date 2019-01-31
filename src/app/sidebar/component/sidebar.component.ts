@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {AuthService} from '../../auth/service/auth.service';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../core/reducer/core.reducer';
+import {isLoggedIn} from '../../auth/selector/auth.selector';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,9 +15,9 @@ export class SidebarComponent implements OnInit {
 
   isLoggedIn$: Observable<Boolean>;
 
-  constructor(private authService: AuthService) { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
-    this.isLoggedIn$ = this.authService.isLoggedIn;
+    this.isLoggedIn$ = this.store.select(isLoggedIn);
   }
 }

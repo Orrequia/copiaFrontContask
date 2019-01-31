@@ -18,6 +18,8 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {CompanyEffect} from './effect/company.effect';
 import {companyReducer} from './reducer/company.reducer';
+import {storeReducer} from './reducer/store.reducer';
+import {StoreEffect} from './effect/store.effect';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import {companyReducer} from './reducer/company.reducer';
     ReactiveFormsModule,
     HttpClientModule,
     StoreModule.forFeature('companies', companyReducer),
-    EffectsModule.forFeature([CompanyEffect])
+    StoreModule.forFeature('stores', storeReducer),
+    EffectsModule.forFeature([CompanyEffect, StoreEffect])
   ],
   providers: [
     CompanyService,

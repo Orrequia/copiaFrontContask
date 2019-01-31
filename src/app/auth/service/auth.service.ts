@@ -11,16 +11,22 @@ export class AuthService {
 
     private loggedIn = new BehaviorSubject<boolean>(false);
 
+    private headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    });
+    private options = { headers: this.headers,
+    withCredentials: true};
 
     constructor(private http: HttpClient, private router: Router) { }
 
-    get isLoggedIn(): Observable<Boolean> {
-
-      if (localStorage.getItem('currentUser')) {
-        this.isConnected();
-      }
-      return this.loggedIn.asObservable();
-    }
+    // get isLoggedIn(): Observable<Boolean> {
+    //
+    //   if (localStorage.getItem('currentUser')) {
+    //     this.isConnected();
+    //   }
+    //   return this.loggedIn.asObservable();
+    // }
 
     public login(username: string, password: string) {
 
@@ -34,38 +40,26 @@ export class AuthService {
         const options = { headers: headers,
                           withCredentials: true};
 
-        return this.http.post<Connected>(AppComponent.API_URL + '/login', {}, options)
-            .pipe(
-                map(user => {
-                    if (user && user.idSession) {
-                        localStorage.setItem('currentUser', JSON.stringify(user));
-                        this.loggedIn.next(true);
-                    }
-                    return user;
-                })
-            );
+        return this.http.post<Connected>(AppComponent.API_URL + '/auth/login', {}, options);
+            // .pipe(
+            //     map(user => {
+            //         if (user) {
+            //             localStorage.setItem('currentUser', JSON.stringify(user));
+            //             this.loggedIn.next(true);
+            //         }
+            //         return user;
+            //     })
+            // );
     }
 
     public logout() {
-      localStorage.removeItem('currentUser');
-      this.loggedIn.next(false);
-      this.router.navigate(['/login']);
+      // localStorage.removeItem('currentUser');
+      // this.loggedIn.next(false);
+      // this.router.navigate(['/login']);
+      return this.http.post(AppComponent.API_URL + '/auth/logout', {}, this.options);
     }
 
-    private isConnected() {
-
-      const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      });
-      const options = { headers: headers,
-        withCredentials: true};
-
-      this.http.get<Boolean>(AppComponent.API_URL + '/connection', options)
-        .subscribe( value => {
-          this.loggedIn.next(true);
-        }, error => {
-          this.loggedIn.next(false);
-        });
+    public imConnected(): Observable<Boolean> {
+      return this.http.get<Boolean>(AppComponent.API_URL + '/auth/connection', this.options);
     }
 }

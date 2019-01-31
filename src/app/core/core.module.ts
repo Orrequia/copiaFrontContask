@@ -4,14 +4,13 @@ import {reducers, metaReducers} from './reducer/core.reducer';
 import {StoreRouterConnectingModule} from '@ngrx/router-store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {EffectsModule} from '@ngrx/effects';
+import {environment} from '../../environments/environment';
 
 @NgModule({
   imports: [
     StoreModule.forRoot(reducers, {metaReducers}),
-    // StoreRouterConnectingModule.forRoot(),
-    StoreDevtoolsModule.instrument({
-      name: 'Esto es una prueba',
-    }),
+    StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
+    !environment.production ? StoreDevtoolsModule.instrument({name: 'Contask'}) : [],
     EffectsModule.forRoot([])
   ]
 })
