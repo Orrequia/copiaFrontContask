@@ -1,16 +1,16 @@
+<!--<div *ngIf="loadingPopulation$ ? getProvince((population$ | async)?.idProvince): ''"></div>-->
 <div class="store_details">
   <div class="operar">
-    <i class="fas fa-pen link"></i>&nbsp;
+    <i class="fas fa-pen link"></i>
     <i class="fas fa-trash link"></i>
   </div>
-
   <p class="card-text">
-    <i class="fas fa-address-card icon-tam"></i>{{store.address}}, {{population.name}} ({{province.name}}) <br/>
+    <i class="fas fa-address-card icon-tam"></i>{{store.address}}, {{(population$ | async)?.name }} ({{(province$ | async)?.name}}) <br/>
+
     <i class="fas fa-at icon-tam"></i>{{store.email}} <br/>
     <i class="fas fa-phone icon-tam"></i>{{store.phone}}
-
+  </p>
   <div class="row-grid-divider"></div>
-
 
 
   <div class="tab-pane fade show active table-wrapper-scroll-y" id="company-1" role="tabpanel">
@@ -31,5 +31,4 @@
       </tbody>
     </table>
   </div>
-
 </div>

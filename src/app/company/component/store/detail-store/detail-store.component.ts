@@ -1,61 +1,84 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnChanges} from '@angular/core';
 
-import { Store } from '../../../model/store.model';
-import {PopulationService} from '../../../../service/population/population.service';
-import {Population} from '../../../../model/population.model';
-import {ProvinceService} from '../../../../service/province/province.service';
-import {Province} from '../../../../model/province.model';
+import * as StoreModel from '../../../model/store.model';
+import {Population} from '../../../../province/model/population.model';
+import {Province} from '../../../../province/model/province.model';
 import {EmployeeService} from '../../../service/employee/employee.service';
 import {Employee} from '../../../model/employee.model';
 import {Company} from '../../../model/company.model';
 import {ContractService} from '../../../../service/contract/contract.service';
 import {Contract} from '../../../../model/contract.model';
+import {AppState} from '../../../../core/reducer/core.reducer';
+import {ActionsSubject, Store} from '@ngrx/store';
+import {selectPopulationById} from '../../../../province/selector/population.selector';
+import {LoadPopulation, LoadPopulationSuccess, PopulationActionTypes} from '../../../../province/action/population.action';
+import {Observable} from 'rxjs';
+import {selectProvinceById, selectProvinceStateIsLoading} from '../../../../province/selector/province.selector';
+import {LoadProvince} from '../../../../province/action/province.action';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-detail-store',
   templateUrl: './detail-store.component.html',
   styleUrls: ['./detail-store.component.css']
 })
-export class DetailStoreComponent implements OnInit, OnChanges {
+export class DetailStoreComponent implements OnChanges {
 
   @Input()
-  private store: Store;
+  private store: StoreModel.Store;
   @Input()
   private company: Company;
 
-
-  private population: Population;
-  private province: Province;
+  private dispatchedPopulation = false;
+  private dispatchedProvince = false;
+  private population$: Observable<Population>;
+  private loadingPopulation$: Observable<boolean>;
+  private province$: Observable<Province>;
   private employees: Array<Employee>;
   private contracts: Array<Contract>;
 
-  constructor(private populationService: PopulationService,
-              private provinceService: ProvinceService,
-              private employeeService: EmployeeService,
-              private contractService: ContractService) {
-    this.population = new Population();
-    this.province = new Province();
+  constructor(private employeeService: EmployeeService,
+              private contractService: ContractService,
+              private store$: Store<AppState>,
+              private actionsSubject$: ActionsSubject) {
     this.employees = new Array<Employee>();
     this.contracts = new Array<Contract>();
   }
 
-  ngOnInit() {
+  ngOnChanges() {
+
+    this.dispatchedPopulation = false;
+    this.dispatchedProvince = false;
+
+    this.getPopulation();
+    this.population$ = this.store$.select(selectPopulationById(this.store.idPopulation));
+
+    this.loadingPopulation$ = this.store$.select(selectProvinceStateIsLoading);
+
+    this.actionsSubject$.pipe(
+      filter((action) => action.type === PopulationActionTypes.LOAD_POPULATION_SUCCESS)
+    ).subscribe((action: LoadPopulationSuccess) => {
+      this.getProvince(action.payload.idProvince);
+      this.province$ = this.store$.select(selectProvinceById(action.payload.idProvince));
+    });
   }
 
-  ngOnChanges() {
-    if (this.store && this.store.idStore) {
-      this.populationService.get(this.store.idPopulation).subscribe(population => {
-        this.population = population as unknown as Population;
-        this.provinceService.get(this.population.idProvince).subscribe(province => {
-          this.province = province as unknown as Province;
-        });
-      });
-      this.employeeService.get(undefined, undefined, {store: this.store.idStore}).subscribe(employees => {
-        this.employees = employees as unknown as Array<Employee>;
-      });
-      this.contractService.get(undefined, [this.company.idCompany]).subscribe(contracts => {
-        this.contracts = contracts as unknown as Array<Contract>;
-      });
-    }
+  private getPopulation() {
+    this.store$.select(selectPopulationById(this.store.idPopulation)).pipe(
+    ).subscribe(population => {
+      if (!population && !this.dispatchedPopulation) {
+        this.dispatchedPopulation = true;
+        this.store$.dispatch(new LoadPopulation(this.store.idPopulation));
+      }
+    });
+  }
+
+  private getProvince(idProvince: number) {
+    this.store$.select(selectProvinceById(idProvince)).subscribe(provinceGot => {
+      if (!provinceGot && !this.dispatchedProvince) {
+        this.dispatchedProvince = true;
+        this.store$.dispatch(new LoadProvince(idProvince));
+      }
+    });
   }
 }

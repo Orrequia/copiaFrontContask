@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
-import {AuthActionTypes, CheckConnectionAuth, LoginAuth, LoginAuthSuccess} from '../action/auth.action';
+import {AuthActionTypes, CheckConnectionAuth, LoginAuth, LoginAuthFail, LoginAuthSuccess} from '../action/auth.action';
 import {defer, of} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../service/auth.service';
 import {Connected} from '../model/connected.model';
 import {Credentials} from '../model/credentials.model';
+import {computeStyle} from '@angular/animations/browser/src/util';
 
 @Injectable()
 export class AuthEffect {
@@ -39,6 +40,15 @@ export class AuthEffect {
   );
 
   @Effect({dispatch: false})
+  loginFail$ = this.actions$.pipe(
+    ofType<LoginAuthFail>(AuthActionTypes.LOGIN_AUTH_FAIL),
+    tap( action => {
+      localStorage.removeItem('user');
+      this.router.navigateByUrl('/login');
+    })
+  );
+
+  @Effect({dispatch: false})
   logout$ = this.actions$.pipe(
     ofType(AuthActionTypes.LOGOUT_AUTH),
     switchMap((action: Credentials) => this.authService.logout().pipe(
@@ -55,21 +65,17 @@ export class AuthEffect {
   @Effect()
   checkConnection$ = this.actions$.pipe(
     ofType(AuthActionTypes.CHECK_CONNECTION_AUTH),
-    switchMap((action: Connected) => this.authService.imConnected().pipe(
-      map(() => new LoginAuthSuccess(action)),
-      catchError(err => {
-        localStorage.removeItem('user');
-        this.router.navigateByUrl('/login');
-        return of();
-      })
+    switchMap((action: CheckConnectionAuth) => this.authService.imConnected().pipe(
+      map(() => new LoginAuthSuccess(action.payload)),
+      catchError(() => of(new LoginAuthFail()))
     ))
   );
 
   @Effect()
   init$ = defer(() => {
-    const userData = localStorage.getItem('user');
+    const userData: Connected = JSON.parse(localStorage.getItem('user'));
     if (userData) {
-      return of(new CheckConnectionAuth(userData as unknown as Connected));
+      return of(new CheckConnectionAuth(userData));
     }
   });
 

@@ -46,24 +46,9 @@
       <div class="d-block d-md-none">&nbsp;</div>
       <!-- Tiendas -->
       <div class="col-md-8">
-        <div class="card" *ngIf="storeSelected">
-          <div class="card-header tags-store">
-            <ul class="nav nav-tabs">
-              <li *ngFor="let store of (stores$ | async); index as i">
-                <a class="nav-link {{i === 0? 'active' : ''}}" data-toggle="tab" (click)="selectStore(store)">{{store.name}}</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">+</a>
-              </li>
-            </ul>
-          </div>
-          <div class="card-body">
-            <app-detail-store [company]="company" [store]="storeSelected"></app-detail-store>
-          </div>
-        </div>
+        <app-list-store [company]="company"></app-list-store>
         <br/>
       </div>
-
     </div>
   </div>
 </div>

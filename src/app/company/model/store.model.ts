@@ -1,5 +1,5 @@
 import {Employee} from './employee.model';
-import {Population} from '../../model/population.model';
+import {Population} from '../../province/model/population.model';
 
 export class Store {
   idStore: number;

@@ -1,12 +1,11 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType, ROOT_EFFECTS_INIT} from '@ngrx/effects';
+import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {Action, Store} from '@ngrx/store';
-import {CompanyActionTypes, LoadCompanies, LoadCompaniesSuccess, LoadCompaniesFail} from '../action/company.action';
-import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+import {Action} from '@ngrx/store';
+import {CompanyActionTypes, LoadCompaniesSuccess, LoadCompaniesFail} from '../action/company.action';
+import {catchError, map, switchMap} from 'rxjs/operators';
 import {CompanyService} from '../service/company/company.service';
 import {Company} from '../model/company.model';
-import {AppState} from '../../core/reducer/core.reducer';
 
 @Injectable()
 export class CompanyEffect {

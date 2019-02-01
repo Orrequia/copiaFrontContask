@@ -38,7 +38,7 @@ export abstract class GenericService {
           url = url.substring(0, url.length - 1);
         }
 
-        console.log(url);
+        console.log(url.substring(22));
         return url;
     }
 

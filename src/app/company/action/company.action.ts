@@ -2,9 +2,9 @@ import { Action } from '@ngrx/store';
 import {Company} from '../model/company.model';
 
 export enum CompanyActionTypes {
-  LOAD_COMPANIES = '[GET] Load all companies.',
-  LOAD_COMPANIES_SUCCESS = '[GET] Load all companies. SUCCESS',
-  LOAD_COMPANIES_FAIL = '[GET] Load all companies. FAIL'
+  LOAD_COMPANIES = '[Get many] Company.',
+  LOAD_COMPANIES_SUCCESS = '[Get many] Company. SUCCESS',
+  LOAD_COMPANIES_FAIL = '[Get many] Company. FAIL'
 }
 
 export class LoadCompanies implements Action {

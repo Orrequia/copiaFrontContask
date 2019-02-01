@@ -2,9 +2,9 @@ import { Action } from '@ngrx/store';
 import { Store } from '../model/store.model';
 
 export enum StoreActionTypes {
-  LOAD_STORES = '[GET] Load all stores.',
-  LOAD_STORES_SUCCESS = '[GET] Load all stores. SUCCESS',
-  LOAD_STORES_FAIL = '[GET] Load all stores. FAIL'
+  LOAD_STORES = '[Get many] Store.',
+  LOAD_STORES_SUCCESS = '[Get many] Store. SUCCESS',
+  LOAD_STORES_FAIL = '[Get many] Store. FAIL'
 }
 
 export class LoadStores implements Action {

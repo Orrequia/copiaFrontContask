@@ -10,7 +10,7 @@ import {CompanyModule} from './company/company.module';
 import {ContractService} from './service/contract/contract.service';
 import {AuthModule} from './auth/auth.module';
 import {SidebarComponent} from './sidebar/component/sidebar.component';
-import {StoreModule} from '@ngrx/store';
+import {ProvinceModule} from './province/province.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,8 @@ import {StoreModule} from '@ngrx/store';
     routing,
     AuthModule,
     CoreModule,
-    CompanyModule
+    CompanyModule,
+    ProvinceModule
   ],
   providers: [
     ContractService

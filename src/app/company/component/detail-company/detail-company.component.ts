@@ -21,13 +21,9 @@ export class DetailCompanyComponent implements OnInit, OnChanges {
 
   @Input()
   private company: Company;
-
-  private dispatched = false;
   private companyType: CompanyType;
-  private owner: Employee;
-  private stores$: Observable<Array<StoreModel.Store>>;
-  private storeSelected: StoreModel.Store;
 
+  private owner: Employee;
   private nulo = '--';
 
   constructor(private store$: Store<AppState>,
@@ -42,9 +38,6 @@ export class DetailCompanyComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
 
-    this.dispatched = false;
-    this.getStores();
-
     this.companyTypeService.get(this.company.idCompanyType).subscribe(companyType => {
       this.companyType = companyType as unknown as CompanyType;
     });
@@ -52,48 +45,4 @@ export class DetailCompanyComponent implements OnInit, OnChanges {
       this.owner = employee as unknown as Employee;
     });
   }
-
-  private getStores() {
-    this.store$.pipe(select(selectStoreState)).subscribe(stores => {
-      if (!this.dispatched) {
-        if (!stores.ids[0]) {
-          this.dispatched = true;
-          this.store$.dispatch(new LoadStores(this.company.idCompany));
-        } else {
-          this.stores$ = this.getAllStoresWithDispatch();
-        }
-      } else {
-        this.stores$ = this.getAllStores();
-      }
-      this.setStoreByDefaultSelected();
-    });
-  }
-
-  private setStoreByDefaultSelected() {
-    this.stores$.subscribe(storesGot => {
-      this.storeSelected = storesGot[0];
-    });
-  }
-
-  private getAllStores(): Observable<Array<StoreModel.Store>> {
-    return this.store$.pipe(
-      select(selectStoresByIds(this.company.stores)),
-      catchError(() => of([new StoreModel.Store()])));
-  }
-
-  private getAllStoresWithDispatch(): Observable<Array<StoreModel.Store>> {
-    return this.store$.pipe(
-      select(selectStoresByIds(this.company.stores)),
-      catchError(() => {
-        this.dispatched = true;
-        this.store$.dispatch(new LoadStores(this.company.idCompany));
-        return of([new StoreModel.Store()]);
-      })
-    );
-  }
-
-  public selectStore(store: StoreModel.Store) {
-    this.storeSelected = store;
-  }
-
 }

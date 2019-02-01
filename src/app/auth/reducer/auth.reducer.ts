@@ -4,17 +4,21 @@ import {AuthState, initialAuthState} from '../state/auth.state';
 export function authReducer(state = initialAuthState, action: AuthActionsUnion): AuthState {
   switch (action.type) {
     case AuthActionTypes.LOGIN_AUTH:
-      console.log('Reducer auth login lanzado');
       return {
         loggedIn: false,
         user: undefined
       };
 
     case AuthActionTypes.LOGIN_AUTH_SUCCESS:
-      console.log('Reducer auth login success lanzado');
       return {
         loggedIn: true,
         user: action.payload
+      };
+
+    case AuthActionTypes.LOGIN_AUTH_FAIL:
+      return {
+        loggedIn: false,
+        user: undefined
       };
 
     case AuthActionTypes.LOGOUT_AUTH:

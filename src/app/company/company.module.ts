@@ -20,6 +20,7 @@ import {CompanyEffect} from './effect/company.effect';
 import {companyReducer} from './reducer/company.reducer';
 import {storeReducer} from './reducer/store.reducer';
 import {StoreEffect} from './effect/store.effect';
+import { ListStoreComponent } from './component/store/list-store/list-store.component';
 
 @NgModule({
   declarations: [
@@ -27,14 +28,16 @@ import {StoreEffect} from './effect/store.effect';
     ListCompanyComponent,
     DetailCompanyComponent,
     NavbarCompanyComponent,
+    ListStoreComponent,
     DetailStoreComponent,
-    SummaryContractComponent
+    SummaryContractComponent,
   ],
   exports: [
     CompanyComponent,
     ListCompanyComponent,
     DetailCompanyComponent,
     NavbarCompanyComponent,
+    ListStoreComponent,
     DetailStoreComponent,
     SummaryContractComponent,
   ],
