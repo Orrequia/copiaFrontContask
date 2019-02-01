@@ -12,23 +12,5 @@
   </p>
   <div class="row-grid-divider"></div>
 
-
-  <div class="tab-pane fade show active table-wrapper-scroll-y" id="company-1" role="tabpanel">
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Email</th>
-          <th>Teléfono</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let employee of employees">
-          <td>{{employee.name}}</td>
-          <td>{{employee.email}}</td>
-          <td>{{employee.phone}}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <app-detail-employee [store]="store"></app-detail-employee>
 </div>

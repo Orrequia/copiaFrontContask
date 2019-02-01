@@ -27,9 +27,9 @@
           </div>
           <div class="card-body">
             <p class="card-text owner-text">
-              <i class="fas fa-user-circle icon-tam"></i>{{owner.name}} <br/>
-              <i class="fas fa-at icon-tam"></i>{{owner.email ? owner.email : nulo}} <br/>
-              <i class="fas fa-phone icon-tam"></i>{{owner.phone ? owner.phone : nulo}}</p>
+              <i class="fas fa-user-circle icon-tam"></i>{{(owner$ | async)?.name}} <br/>
+              <i class="fas fa-at icon-tam"></i>{{(owner$ | async)?.email ? (owner$ | async)?.email : nulo}} <br/>
+              <i class="fas fa-phone icon-tam"></i>{{(owner$ | async)?.phone ? (owner$ | async)?.phone : nulo}}</p>
           </div>
         </div>
         <br/>

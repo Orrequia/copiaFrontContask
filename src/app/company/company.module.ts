@@ -14,13 +14,15 @@ import {CompanyTypeService} from './service/companytype/company-type.service';
 import {StoreService} from './service/store/store.service';
 import {EmployeeService} from './service/employee/employee.service';
 import {StoreModule} from '@ngrx/store';
-// import {reducers} from './reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {CompanyEffect} from './effect/company.effect';
 import {companyReducer} from './reducer/company.reducer';
 import {storeReducer} from './reducer/store.reducer';
 import {StoreEffect} from './effect/store.effect';
 import { ListStoreComponent } from './component/store/list-store/list-store.component';
+import {employeeReducer} from './reducer/employee.reducer';
+import {EmployeeEffect} from './effect/employe.effect';
+import { DetailEmployeeComponent } from './component/employee/detail-employee/detail-employee.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { ListStoreComponent } from './component/store/list-store/list-store.comp
     ListStoreComponent,
     DetailStoreComponent,
     SummaryContractComponent,
+    DetailEmployeeComponent,
   ],
   exports: [
     CompanyComponent,
@@ -40,6 +43,7 @@ import { ListStoreComponent } from './component/store/list-store/list-store.comp
     ListStoreComponent,
     DetailStoreComponent,
     SummaryContractComponent,
+    DetailEmployeeComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +52,8 @@ import { ListStoreComponent } from './component/store/list-store/list-store.comp
     HttpClientModule,
     StoreModule.forFeature('companies', companyReducer),
     StoreModule.forFeature('stores', storeReducer),
-    EffectsModule.forFeature([CompanyEffect, StoreEffect])
+    StoreModule.forFeature('employees', employeeReducer),
+    EffectsModule.forFeature([CompanyEffect, StoreEffect, EmployeeEffect])
   ],
   providers: [
     CompanyService,
