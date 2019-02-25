@@ -27,7 +27,7 @@ export class LoadProvinces implements Action {
 export class LoadProvincesSuccess implements Action {
   readonly type = ProvinceActionTypes.LOAD_PROVINCES_SUCCESS;
 
-  constructor(public payload: Array<Province>) {}
+  constructor(public payload: Array<Province>, public allLoaded?: boolean) {}
 }
 
 export class LoadProvincesFail implements Action {

@@ -8,14 +8,19 @@
 .operar {
   float: right;
   margin-top: -15px;
-  margin-right: -10px;
-  margin-right: 10px;
+  /*margin-right: -10px;*/
+  /*margin-right: 10px;*/
   color: lightgrey;
 }
 
 .operar .link:hover {
   color: black;
 }
+
+.link {
+  margin-right: 7px;
+}
+
 .table {
   margin-bottom: 0px;
 }
@@ -26,4 +31,8 @@
 .row-grid-divider {
   border-bottom:1px solid lightgrey;
   margin-bottom: 7px;
+}
+
+.warning {
+  color: red;
 }

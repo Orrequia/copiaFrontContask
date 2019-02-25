@@ -11,12 +11,7 @@ export const selectAllStores = createSelector(selectStoreState, fromStore.select
 export const selectStoreById = (id: number) => createSelector(selectStoreState, (stores: StoreState) => stores.entities[id]);
 export const selectStoresByIds = (ids: Array<number>) => createSelector(selectStoreState, (stores: StoreState) => {
   const storesSearch = [];
-  ids.forEach(id => {
-    if (!stores.entities[id]) {
-      throw new Error('Algún id no existe');
-    }
-    storesSearch.push(stores.entities[id]);
-  });
+  ids.forEach(id => storesSearch.push(stores.entities[id]));
   return storesSearch;
 });
 

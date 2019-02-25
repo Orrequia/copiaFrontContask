@@ -1,5 +1,4 @@
-import {Employee} from './employee.model';
-import {Population} from '../../province/model/population.model';
+import {ContractInfoByDongle} from './contract-info-by-dongle.model';
 
 export class Store {
   idStore: number;
@@ -11,4 +10,6 @@ export class Store {
   dongles: Array<number>;
   idResponsible: number;
   idPopulation: number;
+
+  contractInfoByDongles: Array<ContractInfoByDongle>;
 }

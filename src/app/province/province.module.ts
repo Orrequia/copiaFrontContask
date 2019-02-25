@@ -11,6 +11,8 @@ import {EffectsModule} from '@ngrx/effects';
 import {ProvinceEffect} from './effect/province.effect';
 import {populationReducer} from './reducer/population.reducer';
 import {PopulationEffect} from './effect/population.effect';
+import {PopulationDataSource} from './datasource/population.data-source';
+import {ProvinceDataSource} from './datasource/province.data-source';
 
 @NgModule({
   declarations: [],
@@ -26,7 +28,9 @@ import {PopulationEffect} from './effect/population.effect';
   ],
   providers: [
     ProvinceService,
-    PopulationService
+    PopulationService,
+    PopulationDataSource,
+    ProvinceDataSource
   ]
 })
 export class ProvinceModule { }

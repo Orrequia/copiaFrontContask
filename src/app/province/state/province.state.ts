@@ -10,12 +10,14 @@ export const provinceAdapter: EntityAdapter<Province> = createEntityAdapter<Prov
 export interface ProvinceState extends EntityState<Province> {
   isLoading?: boolean;
   error?: any;
+  allLoaded?: boolean;
 }
 
 export const initialProvinceState: ProvinceState = provinceAdapter.getInitialState(
   {
     isLoading: false,
-    error: null
+    error: null,
+    allLoaded: false
   }
 );
 

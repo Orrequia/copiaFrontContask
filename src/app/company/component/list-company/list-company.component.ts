@@ -1,45 +1,40 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
-import {SearchCompanyService} from '../../service/company/search-company.service';
+import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {fromEvent, Observable} from 'rxjs';
 import {Company} from '../../model/company.model';
-import {CompanyService} from '../../service/company/company.service';
-import {select, Store} from '@ngrx/store';
-
-import {LoadCompanies} from '../../action/company.action';
-import {selectAllCompanies, selectCompanyState} from '../../selector/company.selector';
-import {AppState} from '../../../core/reducer/core.reducer';
+import {debounceTime, map, tap} from 'rxjs/operators';
+import {CompanyDataSource} from '../../datasource/company.data-source';
 
 @Component({
   selector: 'app-list-company',
   templateUrl: './list-company.component.html',
-  styleUrls: ['./list-company.component.css'],
-  providers: [SearchCompanyService]
+  styleUrls: ['./list-company.component.css']
 })
 export class ListCompanyComponent implements OnInit {
 
   @Output() sendCompany = new EventEmitter<Company>();
-  searchCompany = new EventEmitter<Company>();
-  private textSearch$ = new Subject<string>();
-
-  private dispatched = false;
+  @ViewChild('search') textSearch: ElementRef;
   private companies$: Observable<Array<Company>>;
 
-  constructor(private companyService: CompanyService,
-              private searchCompanySercice: SearchCompanyService,
-              private store$: Store<AppState>) {
-    this.companies$ = store$.pipe(select(selectAllCompanies));
-  }
+  constructor(private companyDataSource: CompanyDataSource) {}
 
   ngOnInit() {
-    this.store$.select(selectCompanyState).subscribe(companies => {
-      if (!companies.ids[0] && !this.dispatched) {
-        this.dispatched = true;
-        this.store$.dispatch(new LoadCompanies());
-      }
-    });
+    this.companies$ = this.companyDataSource.getCompanies();
+    this.subscriptionToSearch();
   }
 
+  // Evento emitido para cada vez que pinchamos una empresa
   senderCompany(company: Company) {
     this.sendCompany.emit(company);
+  }
+
+  // Subscripción al evento de busqueda.
+  subscriptionToSearch() {
+    fromEvent(this.textSearch.nativeElement, 'keyup').pipe(
+      map((e: any) => e.target.value),
+      debounceTime(500),
+      tap(query => {
+        this.companies$ = this.companyDataSource.searchCompanies(query);
+      }
+    )).subscribe();
   }
 }

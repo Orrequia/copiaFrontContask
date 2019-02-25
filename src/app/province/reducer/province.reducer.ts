@@ -13,7 +13,8 @@ export function provinceReducer(state = initialProvinceState, action: ProvinceAc
       return provinceAdapter.addMany(action.payload, {
         ...state,
         isLoading: false,
-        error: null
+        error: null,
+        allLoaded: action.allLoaded
       });
     case ProvinceActionTypes.LOAD_PROVINCES_FAIL:
       return {

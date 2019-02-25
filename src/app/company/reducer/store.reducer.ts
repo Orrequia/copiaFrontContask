@@ -15,6 +15,20 @@ export function storeReducer(state = initialStoreState, action: StoreActionsUnio
         isLoading: false,
         error: null
       });
+    case StoreActionTypes.LOAD_CONTRACT_INFO_BY_DONGLE:
+      return {
+        ...state,
+        isLoading: true,
+        error: null
+      };
+    case StoreActionTypes.LOAD_CONTRACT_INFO_BY_DONGLE_SUCCESS:
+      return storeAdapter.updateOne(action.payload, {
+        ...state,
+        isLoading: false,
+        error: null,
+      });
+
+    case StoreActionTypes.LOAD_CONTRACT_INFO_BY_DONGLE_FAIL:
     case StoreActionTypes.LOAD_STORES_FAIL:
       return {
         ...state,

@@ -10,12 +10,16 @@ export const companyAdapter: EntityAdapter<Company> = createEntityAdapter<Compan
 export interface CompanyState extends EntityState<Company> {
   isLoading?: boolean;
   error?: any;
+  searched?: Array<Company>;
+  allLoaded?: boolean;
 }
 
 export const initialCompanyState: CompanyState = companyAdapter.getInitialState(
   {
     isLoading: false,
-    error: null
+    error: null,
+    searched: null,
+    allLoaded: false
   }
 );
 

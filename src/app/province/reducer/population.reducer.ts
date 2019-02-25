@@ -13,7 +13,8 @@ export function populationReducer(state = initialPopulationState, action: Popula
       return populationAdapter.addMany(action.payload, {
         ...state,
         isLoading: false,
-        error: null
+        error: null,
+        allLoaded: action.allLoaded
       });
     case PopulationActionTypes.LOAD_POPULATIONS_FAIL:
       return {

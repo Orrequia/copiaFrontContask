@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   static API_URL = 'http://localhost:8081';
+  static sizeRequests = 10;
   title = 'ConTask';
 }

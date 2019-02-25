@@ -1,5 +1,4 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {AuthService} from '../../../auth/service/auth.service';
 import {Company} from '../../model/company.model';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../../core/reducer/core.reducer';
@@ -14,7 +13,6 @@ import {LogoutAuth} from '../../../auth/action/auth.action';
 export class NavbarCompanyComponent implements OnInit, OnChanges {
 
   @Input() company: Company;
-
   private initSummaryContract: Boolean;
 
   constructor(private store: Store<AppState>) { }
@@ -31,6 +29,7 @@ export class NavbarCompanyComponent implements OnInit, OnChanges {
     this.store.dispatch(new LogoutAuth());
   }
 
+  // Activa el modal de resumen de contrato.
   activeSummaryContract() {
     this.initSummaryContract = true;
   }

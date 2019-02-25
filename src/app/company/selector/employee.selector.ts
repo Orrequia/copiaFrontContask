@@ -10,12 +10,7 @@ export const selectAllEmployees = createSelector(selectEmployeeState, fromEmploy
 export const selectEmployeeById = (id: number) => createSelector(selectEmployeeState, (employees: EmployeeState) => employees.entities[id]);
 export const selectEmployeesByIds = (ids: Array<number>) => createSelector(selectEmployeeState, (employees: EmployeeState) => {
   const employeesSearch = [];
-  ids.forEach(id => {
-    if (!employees.entities[id]) {
-      throw new Error('Algún id no existe');
-    }
-    employeesSearch.push(employees.entities[id]);
-  });
+  ids.forEach(id => employeesSearch.push(employees.entities[id]));
   return employeesSearch;
 });
 

@@ -21,12 +21,12 @@ export class SummaryContractComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    if (this.company) {
-      this.contractService.get(undefined, [this.company.idCompany]).subscribe(contracts => {
-        this.contracts = contracts as unknown as Array<Contract>;
-        console.log(this.contracts);
-      });
-    }
+    // if (this.company) {
+    //   this.contractService.get(undefined, [this.company.idCompany]).subscribe(contracts => {
+    //     this.contracts = contracts as unknown as Array<Contract>;
+    //     console.log(this.contracts);
+    //   });
+    // }
   }
 
 }

@@ -1,5 +1,6 @@
 import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
 import {Store} from '../model/store.model';
+import {ContractInfoByDongle} from '../model/contract-info-by-dongle.model';
 
 export const storeAdapter: EntityAdapter<Store> = createEntityAdapter<Store>({
   selectId: model => model.idStore,
@@ -15,7 +16,7 @@ export interface StoreState extends EntityState<Store> {
 export const initialStoreState: StoreState = storeAdapter.getInitialState(
   {
     isLoading: false,
-    error: null
+    error: null,
   }
 );
 

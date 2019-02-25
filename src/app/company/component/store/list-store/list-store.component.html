@@ -1,0 +1,17 @@
+<div class="card" *ngIf="!(isLoading | async) && ((stores$ | async)?.length) !== 0">
+  <div class="card-header tags-store">
+    <ul class="nav nav-tabs">
+      <li *ngFor="let store of stores$ | async; let i = index" >
+        <a (click)="selectStore($event, store)" href="#" class="nav-link {{ checkActive(store, tagA, i) }}" data-toggle="tab" #tagA>{{store.name}}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="modal" data-target="#modalCreateStore" (click)="activeCreateStore()">+</a>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body">
+    <app-detail-store *ngIf="storeSelected" [company]="company" [store]="storeSelected"></app-detail-store>
+  </div>
+</div>
+
+<app-create-store *ngIf="initCreateStore" [store]="null"></app-create-store>

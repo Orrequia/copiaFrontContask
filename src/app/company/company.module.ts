@@ -19,10 +19,19 @@ import {CompanyEffect} from './effect/company.effect';
 import {companyReducer} from './reducer/company.reducer';
 import {storeReducer} from './reducer/store.reducer';
 import {StoreEffect} from './effect/store.effect';
-import { ListStoreComponent } from './component/store/list-store/list-store.component';
+import {ListStoreComponent} from './component/store/list-store/list-store.component';
 import {employeeReducer} from './reducer/employee.reducer';
-import {EmployeeEffect} from './effect/employe.effect';
-import { DetailEmployeeComponent } from './component/employee/detail-employee/detail-employee.component';
+import {EmployeeEffect} from './effect/employee.effect';
+import {DetailEmployeeComponent} from './component/employee/detail-employee/detail-employee.component';
+import {companyTypeReducer} from './reducer/company-type.reducer';
+import {CompanyTypeEffect} from './effect/company-type.effect';
+import {ContractInfoByDongleService} from './service/contractinfobydongle/contract-info-by-dongle.service';
+import {EmployeeDataSource} from './datasource/employee.data-source';
+import {CompanyDataSource} from './datasource/company.data-source';
+import {StoreDataSource} from './datasource/store.data-source';
+import {CompanyTypeDataSource} from './datasource/company-type.data-source';
+import { ShowProvinceComponent } from './component/store/show-province/show-province.component';
+import { CreateStoreComponent } from './component/store/create-store/create-store.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +43,8 @@ import { DetailEmployeeComponent } from './component/employee/detail-employee/de
     DetailStoreComponent,
     SummaryContractComponent,
     DetailEmployeeComponent,
+    ShowProvinceComponent,
+    CreateStoreComponent
   ],
   exports: [
     CompanyComponent,
@@ -44,6 +55,8 @@ import { DetailEmployeeComponent } from './component/employee/detail-employee/de
     DetailStoreComponent,
     SummaryContractComponent,
     DetailEmployeeComponent,
+    ShowProvinceComponent,
+    CreateStoreComponent
   ],
   imports: [
     BrowserModule,
@@ -53,14 +66,20 @@ import { DetailEmployeeComponent } from './component/employee/detail-employee/de
     StoreModule.forFeature('companies', companyReducer),
     StoreModule.forFeature('stores', storeReducer),
     StoreModule.forFeature('employees', employeeReducer),
-    EffectsModule.forFeature([CompanyEffect, StoreEffect, EmployeeEffect])
+    StoreModule.forFeature('companyTypes', companyTypeReducer),
+    EffectsModule.forFeature([CompanyEffect, StoreEffect, EmployeeEffect, CompanyTypeEffect])
   ],
   providers: [
     CompanyService,
     SearchCompanyService,
     CompanyTypeService,
     StoreService,
-    EmployeeService
+    EmployeeService,
+    ContractInfoByDongleService,
+    CompanyDataSource,
+    StoreDataSource,
+    EmployeeDataSource,
+    CompanyTypeDataSource
     ]
 })
 export class CompanyModule { }

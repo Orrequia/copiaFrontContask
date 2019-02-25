@@ -10,12 +10,14 @@ export const populationAdapter: EntityAdapter<Population> = createEntityAdapter<
 export interface PopulationState extends EntityState<Population> {
   isLoading?: boolean;
   error?: any;
+  allLoaded?: boolean;
 }
 
 export const initialPopulationState: PopulationState = populationAdapter.getInitialState(
   {
     isLoading: false,
-    error: null
+    error: null,
+    allLoaded: false
   }
 );
 

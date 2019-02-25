@@ -13,7 +13,8 @@ export function companyReducer(state = initialCompanyState, action: CompanyActio
       return companyAdapter.addMany(action.payload, {
         ...state,
         isLoading: false,
-        error: null
+        error: null,
+        allLoaded: action.allLoaded
       });
     case CompanyActionTypes.LOAD_COMPANIES_FAIL:
       return {
@@ -21,7 +22,26 @@ export function companyReducer(state = initialCompanyState, action: CompanyActio
         isLoading: false,
         error: action.payload
       };
-
+    case CompanyActionTypes.SEARCH_COMPANIES:
+      return {
+        ...state,
+        isLoading: true,
+        error: null,
+        searched: null
+      };
+    case CompanyActionTypes.SEARCH_COMPANIES_SUCCESS:
+      return companyAdapter.addMany(action.payload, {
+        ...state,
+        isLoading: false,
+        error: null,
+        searched: action.payload
+      });
+    case CompanyActionTypes.SEARCH_COMPANIES_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload
+      };
     default: return state;
   }
 }

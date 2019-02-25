@@ -1,16 +1,29 @@
-<!--<div *ngIf="loadingPopulation$ ? getProvince((population$ | async)?.idProvince): ''"></div>-->
 <div class="store_details">
   <div class="operar">
     <i class="fas fa-pen link"></i>
     <i class="fas fa-trash link"></i>
   </div>
   <p class="card-text">
-    <i class="fas fa-address-card icon-tam"></i>{{store.address}}, {{(population$ | async)?.name }} ({{(province$ | async)?.name}}) <br/>
+    <i class="fas fa-address-card icon-tam"></i>{{store.address}}, {{(population$ | async)?.name }}
+    <app-show-province *ngIf="(population$ | async)?.idProvince" [population]="(population$ | async)"></app-show-province> <br/>
 
     <i class="fas fa-at icon-tam"></i>{{store.email}} <br/>
     <i class="fas fa-phone icon-tam"></i>{{store.phone}}
   </p>
   <div class="row-grid-divider"></div>
 
-  <app-detail-employee [store]="store"></app-detail-employee>
+  <div *ngIf="store.contractInfoByDongles">
+    <ng-container *ngFor="let info of store.contractInfoByDongles">
+      {{info.dongleLicense}}, con
+      {{info.contractTypeName}} hasta
+      {{info.contractEndDate | date:'shortDate'}},
+      {{info.contractPaid ? 'pagado' : 'sin pagar'}}
+      <br/>
+    </ng-container>
+    <ng-container *ngIf="store.contractInfoByDongles.length === 0">
+      <i class="fas fa-exclamation-triangle warning"></i> Sin contratos vigentes.
+    </ng-container>
+  </div>
+  <br/>
+  <app-detail-employee *ngIf="store" [store]="store"></app-detail-employee>
 </div>

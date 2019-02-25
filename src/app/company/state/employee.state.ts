@@ -10,12 +10,14 @@ export const employeeAdapter: EntityAdapter<Employee> = createEntityAdapter<Empl
 export interface EmployeeState extends EntityState<Employee> {
   isLoading?: boolean;
   error?: any;
+  allLoaded?: boolean;
 }
 
 export const initialEmployeeState: EmployeeState = employeeAdapter.getInitialState(
   {
     isLoading: false,
-    error: null
+    error: null,
+    allLoaded: false
   }
 );
 

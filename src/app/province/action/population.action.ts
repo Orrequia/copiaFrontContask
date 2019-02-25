@@ -21,12 +21,14 @@ export enum PopulationActionTypes {
 
 export class LoadPopulations implements Action {
   readonly type = PopulationActionTypes.LOAD_POPULATIONS;
+
+  constructor(public payload: number) {}
 }
 
 export class LoadPopulationsSuccess implements Action {
   readonly type = PopulationActionTypes.LOAD_POPULATIONS_SUCCESS;
 
-  constructor(public payload: Array<Population>) {}
+  constructor(public payload: Array<Population>, public allLoaded?: boolean) {}
 }
 
 export class LoadPopulationsFail implements Action {
