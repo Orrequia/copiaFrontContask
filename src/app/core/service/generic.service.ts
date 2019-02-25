@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {AppComponent} from '../../app.component';
+import {UriParameters} from '../model/uri-parameters.model';
 
 @Injectable()
 export abstract class GenericService {
@@ -20,33 +21,37 @@ export abstract class GenericService {
 
     protected abstract getResourceUrl(ids?: Array<number>);
 
-    private buildResourceUrl(id?: number, ids?: Array<number>, params?: {}) {
+    private buildResourceUrl(uriParameters: UriParameters) {
 
-        let url = AppComponent.API_URL + this.getResourceUrl(ids);
+      let url = AppComponent.API_URL;
+      if (uriParameters) {
+        url += this.getResourceUrl(uriParameters.variables);
 
-        if (id) {
-            url += '/' + id;
+        if (uriParameters.id) {
+          url += '/' + uriParameters.id;
         }
 
-        if (params) {
+        if (uriParameters.parameters) {
           url += '?';
-          for (const clave of Object.keys(params)) {
-            if (params[clave] !== null && params[clave] !== '') {
-              url += clave + '=' + params[clave] + '&';
+          for (const clave of Object.keys(uriParameters.parameters)) {
+            if (uriParameters.parameters[clave] !== null && uriParameters.parameters[clave] !== '') {
+              url += clave + '=' + uriParameters.parameters[clave] + '&';
             }
           }
           url = url.substring(0, url.length - 1);
         }
 
-        console.log(url.substring(22));
-        return url;
+      } else { url += this.getResourceUrl(); }
+
+      console.log(url.substring(22));
+      return url;
     }
 
-    public post = (body: string, ids?: Array<number>) => this.http.post(this.buildResourceUrl(undefined, ids), body, this.options);
+    public post = (body: string, httpParameter?: UriParameters) => this.http.post(this.buildResourceUrl(httpParameter), body, this.options);
 
-    public put = (id: number, body: string, ids?: Array<number>) => this.http.put(this.buildResourceUrl(id, ids), body, this.options);
+    public put = (body: string, httpParameter?: UriParameters) => this.http.put(this.buildResourceUrl(httpParameter), body, this.options);
 
-    public delete = (id: number, ids?: Array<number>) => this.http.delete(this.buildResourceUrl(id, ids), this.options);
+    public delete = (httpParameter?: UriParameters) => this.http.delete(this.buildResourceUrl(httpParameter), this.options);
 
-    public get = (id?: number, ids?: Array<number>, params?: {}) => this.http.get(this.buildResourceUrl(id, ids, params), this.options);
+    public get = (httpParameter?: UriParameters) => this.http.get(this.buildResourceUrl(httpParameter), this.options);
 }
